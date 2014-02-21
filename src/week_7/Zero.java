@@ -24,7 +24,7 @@ public class Zero {
     }
 
     private static int div(int x, int y) {
-        return x/y;
+        return x/y; //HelloWorld
     }
     
 }
