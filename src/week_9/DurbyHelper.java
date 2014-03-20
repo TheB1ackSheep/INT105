@@ -24,11 +24,7 @@ public class DurbyHelper {
     private ResultSet resultSet = null;
     private static final String DRIVER = "org.apache.derby.jdbc.ClientDriver";
     private static final String URL = "jdbc:derby://";
-    public static boolean DEBUG = false;
     private String conStr;
-    private String db;
-    private String username;
-    private String password;
     
     public DurbyHelper(String db,String username,String password)throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
         this("localhost",1527,db,username,password);
@@ -54,32 +50,41 @@ public class DurbyHelper {
     }
     
     
-    
+    public ResultSet query(String sql) throws SQLException{
+        return this.query(sql, null);
+    }
     public ResultSet query(String sql,List<String> params) throws SQLException{
         try{      
             statement = connect.createStatement();      
-            PreparedStatement prep = connect.prepareStatement(sql);            
+            PreparedStatement prep = connect.prepareStatement(sql);   
+            //Statement state = connect.createStatement();            
             if(params != null){          
                 for(int i=1;i<=params.size();i++)
                     prep.setString(i, params.get(i-1));
             }      
             resultSet = prep.executeQuery();      
+            //resultSet = state.executeQuery(sql);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
         return resultSet;
     }
     
+    public void execute(String sql) throws SQLException{
+        this.execute(sql, null);
+    }
+    
     public void execute(String sql,List<String> params){
         try{      
-            statement = connect.createStatement();                  
-
-            PreparedStatement prep = connect.prepareStatement(sql);            
+            statement = connect.createStatement();                 
+            PreparedStatement prep = connect.prepareStatement(sql); 
+            //Statement state = connect.createStatement();
             if(params != null){          
                 for(int i=1;i<=params.size();i++)
                     prep.setString(i, params.get(i));
             }      
             prep.execute();      
+            //state.execute(sql);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }

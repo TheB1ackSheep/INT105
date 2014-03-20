@@ -7,11 +7,6 @@
 package week_9;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,10 +17,10 @@ public class TestDB {
         DurbyHelper db = null; 
         try {
             db = new DurbyHelper("sample", "app", "app");
-            String sql = "SELECT * FROM customer WHERE customer_id>?";
-            List<String> params = new ArrayList<>();
-            params.add("1");
-            ResultSet rs = db.query(sql, params);
+            String sql = "SELECT * FROM customer";
+            /*List<String> params = new ArrayList<>();
+            params.add("1");*/
+            ResultSet rs = db.query(sql);
             while(rs.next()){
                 int id = rs.getInt("customer_id");
                 String name = rs.getString("name");
@@ -39,7 +34,7 @@ public class TestDB {
             try {
                 if(db != null)
                     db.close();
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                  System.err.println(ex.getMessage());
             }
         }
