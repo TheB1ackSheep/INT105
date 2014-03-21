@@ -10,22 +10,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import week_9.DatabaseHelper.*;
 
 /**
  *
  * @author INT105
  */
-
-public class TestDB {
-    
-    public static void main(String[] args) {   
-        DerbyHelper db = null; 
+public class TestMySQL {
+    public static void main(String[] args) throws Exception {
+        DatabaseHelper db = null;  
         try {
-            db = new DerbyHelper("sample",1527, "app", "app");
-            String sql = "SELECT * FROM customer ";
-            ResultSet rs = db.query(sql);
+            db = new MySQLHelper("localhost",3311, "sample","root", "root");
+            String sql = "SELECT * FROM customer";
+            ResultSet rs = db.query(sql, null);
             while(rs.next()){
                 int id = rs.getInt("customer_id");
                 String name = rs.getString("name");
@@ -33,7 +30,7 @@ public class TestDB {
                 String phone = rs.getString("phone");
                 System.out.printf("%4d %-27s %-33s %s\n",id,name,email,phone);
             }
-            } catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }finally{
             try {
@@ -43,13 +40,5 @@ public class TestDB {
                  System.err.println(ex.getMessage());
             }
         }
-        
-        
-        
-        
-        
-    }
-
-    public TestDB() {
     }
 }
